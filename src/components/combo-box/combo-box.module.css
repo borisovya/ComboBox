@@ -5,31 +5,54 @@
 }
 
 .selectLine {
-  background-color: white;
-  font-size: 22px;
-  border-radius: 2px;
-  border: 1px solid black;
+  position: relative;
+}
+
+.searchSvg {
+  position: absolute;
+  top: 9px;
+  left: 5px;
+  pointer-events: none;
+}
+
+.biChevronSvg {
+  position: absolute;
+  top: 9px;
+  right: 5px;
+}
+
+.selectLine input {
+  width: 90%;
+  padding-left: 30px;
+  height: 30px;
+  right: 20px;
+  border: 1px solid #1EA7FD;
+  border-radius: 3px;
 }
 
 .dropDownListStyle {
+  margin-top: 5px;
+  width: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border-radius: 2px;
-  border: 1px solid black;
+  border: 1px solid #1EA7FD;
+  border-radius: 3px;
   text-decoration: none;
   list-style-type: none;
   padding-left: 5px;
   padding-right: 5px;
-  width: 100%;
-  max-height: 90px;
+  max-height: 81px;
   overflow-y: auto;
 }
 
-.dropDownListStyle li {
-  font-size: 22px;
-  width: 100%;
+.dropDownListStyle {
+  display: block;
+}
+
+.dropDownListFoldedStyle {
+  display: none;
 }
 
 
@@ -37,4 +60,17 @@
   width: 100%;
   cursor: pointer;
   background-color: #1EA7FD;
+  opacity: 0.9;
+}
+
+.displayItems {
+  font-size: 14px;
+  width: 100%;
+  display: block;
+}
+
+.hideItems {
+  font-size: 14px;
+  width: 100%;
+  display: none;
 }
