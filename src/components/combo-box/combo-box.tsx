@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './combo-box.module.css';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -15,6 +15,10 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
   const [isFolded, setIsFolded] = useState<boolean>(true);
   const [selectedOption, setSelectedOption] =
     useState<string>('Type to search');
+
+  useEffect(() => {
+    setSelectedOption(value);
+  }, [value]);
 
   const onLiClickHandler = (name: string) => {
     setIsFolded(true);
@@ -52,7 +56,7 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
 
   const onInputBlurHandler = () => {
     setIsFolded(true);
-    setSelectedOption('Type to search');
+    setSelectedOption('');
   };
 
   return (
@@ -65,9 +69,9 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
           }}
           onChange={(e) => onInputChange(e.currentTarget.value)}
           onKeyDown={onEnterDownHandled}
-          value={value}
+          value={selectedOption}
           type="text"
-          placeholder={selectedOption}
+          placeholder={'Type to search'}
           onBlur={onInputBlurHandler}
         />
         <RxCross1
