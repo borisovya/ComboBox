@@ -1,73 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import s from './combo-box.module.css';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { ListItemType } from '../../app';
+import { RxCross1 } from 'react-icons/all';
 
-export type ListItemType = {
-  id: number;
-  name: string;
+type propsType = {
+  itemList: Array<ListItemType>;
+  onInputChange: (currentValue: string) => void;
+  value: string;
 };
 
-const itemList: Array<ListItemType> = [
-  {
-    id: 1,
-    name: 'MOSCOW'
-  },
-  {
-    id: 2,
-    name: 'KALUGA'
-  },
-  {
-    id: 3,
-    name: 'TULA'
-  },
-  {
-    id: 4,
-    name: 'BRYANSK'
-  },
-  {
-    id: 5,
-    name: 'SOCHI'
-  },
-  {
-    id: 6,
-    name: 'EKATERINBURG'
-  },
-  {
-    id: 7,
-    name: 'ROSTOV'
-  },
-  {
-    id: 8,
-    name: 'VORONEZH'
-  },
-  {
-    id: 9,
-    name: 'MINSK'
-  }
-];
-
-export function ComboBox() {
-  const [list, setList] = useState<Array<ListItemType>>([]);
-  const [inputValue, setInputValue] = useState<string>('');
+export function ComboBox({ itemList, onInputChange, value }: propsType) {
   const [isFolded, setIsFolded] = useState<boolean>(true);
-
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      setList(itemList);
-    }, 500);
-    return () => {
-      clearTimeout(timeOut);
-    };
-  });
-
-  const onChangeHandler = (currentValue: string) => {
-    setInputValue(currentValue);
-  };
+  const [selectedOption, setSelectedOption] =
+    useState<string>('Type to search');
 
   const onLiClickHandler = (name: string) => {
-    setInputValue(name);
     setIsFolded(true);
+    onInputChange(name);
+  };
+
+  const onChevronDownClickHandler = () => {
+    setIsFolded(false);
+  };
+
+  const onChevronUpClickHandler = () => {
+    setIsFolded(true);
+    setSelectedOption('Type to search');
+  };
+
+  const onEnterDownHandled = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setIsFolded(!isFolded);
+    }
+  };
+
+  const onLiEnterDownHandled = (
+    e: React.KeyboardEvent<HTMLLIElement>,
+    name: string
+  ) => {
+    if (e.key === 'Enter') {
+      onInputChange(name);
+      setIsFolded(!isFolded);
+    }
+  };
+
+  const onMouseOverHandler = (name: string) => {
+    setSelectedOption(name);
+  };
+
+  const onInputBlurHandler = () => {
+    setIsFolded(true);
+    setSelectedOption('Type to search');
   };
 
   return (
@@ -78,46 +63,61 @@ export function ComboBox() {
           onClick={() => {
             setIsFolded(false);
           }}
-          onChange={(e) => onChangeHandler(e.currentTarget.value)}
-          value={inputValue}
+          onChange={(e) => onInputChange(e.currentTarget.value)}
+          onKeyDown={onEnterDownHandled}
+          value={value}
           type="text"
-          placeholder={'Enter something'}
+          placeholder={selectedOption}
+          onBlur={onInputBlurHandler}
+        />
+        <RxCross1
+          size={15}
+          className={s.cross}
+          onClick={() => onInputChange('')}
         />
         {isFolded ? (
           <BiChevronDown
-            onClick={() => setIsFolded(!isFolded)}
+            onClick={onChevronDownClickHandler}
             size={20}
             className={s.biChevronSvg}
           />
         ) : (
           <BiChevronUp
-            onClick={() => setIsFolded(!isFolded)}
+            onClick={onChevronUpClickHandler}
             size={20}
             className={s.biChevronSvg}
           />
         )}
       </div>
-      <ul
-        className={`${
-          isFolded ? s.dropDownListFoldedStyle : s.dropDownListStyle
-        }`}
-      >
-        {list.map((l) => (
-          <li
-            key={l.id}
-            className={`${
-              l.name.toLowerCase().includes(inputValue.toLowerCase())
-                ? s.displayItems
-                : s.hideItems
-            }`}
-            onClick={() => {
-              onLiClickHandler(l.name);
-            }}
-          >
-            {l.name}
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul
+          className={`${
+            isFolded ? s.dropDownListFoldedStyle : s.dropDownListStyle
+          }`}
+        >
+          {itemList.map((i) => (
+            <li
+              key={i.id}
+              onMouseOver={() => {
+                onMouseOverHandler(i.name);
+              }}
+              onKeyDown={(e) => {
+                onLiEnterDownHandled(e, i.name);
+              }}
+              className={`${
+                i.name.toLowerCase().includes(value.toLowerCase())
+                  ? s.displayItems
+                  : s.hideItems
+              }`}
+              onMouseDown={() => {
+                onLiClickHandler(i.name);
+              }}
+            >
+              {i.name}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
