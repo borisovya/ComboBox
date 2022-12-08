@@ -13,44 +13,46 @@ export type ListItemType = {
 const itemList: Array<ListItemType> = [
   {
     id: 1,
-    name: 'MOSCOW'
+    name: 'Moscow'
   },
   {
     id: 2,
-    name: 'KALUGA'
+    name: 'Kaluga'
   },
   {
     id: 3,
-    name: 'TULA'
+    name: 'Tula'
   },
   {
     id: 4,
-    name: 'BRYANSK'
+    name: 'Bryansk'
   },
   {
     id: 5,
-    name: 'SOCHI'
+    name: 'Sochi'
   },
   {
     id: 6,
-    name: 'EKATERINBURG'
+    name: 'Ekaterinburg'
   },
   {
     id: 7,
-    name: 'ROSTOV'
+    name: 'Rostov-on-Don'
   },
   {
     id: 8,
-    name: 'VORONEZH'
+    name: 'Voronezh'
   },
   {
     id: 9,
-    name: 'MINSK'
+    name: 'Minsk, Belarus'
   }
 ];
 
 export function ComboBoxComponent() {
   const [inputValue, setInputValue] = useState<string>('');
+
+  console.log(inputValue + ' inputvalue');
 
   const onChangeHandler = (currentValue: string) => {
     setInputValue(currentValue);

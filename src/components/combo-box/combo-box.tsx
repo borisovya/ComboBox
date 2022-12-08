@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import s from './combo-box.module.css';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiFillDelete, AiOutlineSearch } from 'react-icons/ai';
 import { ListItemType } from '../../app';
-import { RxCross1 } from 'react-icons/all';
 
 type propsType = {
   itemList: Array<ListItemType>;
@@ -16,12 +15,9 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
   const [selectedOption, setSelectedOption] =
     useState<string>('Type to search');
 
-  useEffect(() => {
-    setSelectedOption(value);
-  }, [value]);
-
   const onLiClickHandler = (name: string) => {
     setIsFolded(true);
+    setSelectedOption(name);
     onInputChange(name);
   };
 
@@ -31,22 +27,14 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
 
   const onChevronUpClickHandler = () => {
     setIsFolded(true);
-    setSelectedOption('Type to search');
+    setSelectedOption('');
+    onInputChange('');
   };
 
-  const onEnterDownHandled = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onInputKeyUpHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      setIsFolded(!isFolded);
-    }
-  };
-
-  const onLiEnterDownHandled = (
-    e: React.KeyboardEvent<HTMLLIElement>,
-    name: string
-  ) => {
-    if (e.key === 'Enter') {
-      onInputChange(name);
-      setIsFolded(!isFolded);
+      onInputChange(selectedOption);
+      setIsFolded(true);
     }
   };
 
@@ -55,8 +43,13 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
   };
 
   const onInputBlurHandler = () => {
+    setSelectedOption('Type to search');
     setIsFolded(true);
-    setSelectedOption('');
+  };
+
+  const onDeleteClickHandler = () => {
+    onInputChange('');
+    setSelectedOption('Type to search');
   };
 
   return (
@@ -64,20 +57,20 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
       <div className={s.selectLine}>
         <AiOutlineSearch size={18} className={s.searchSvg} />
         <input
+          onKeyUp={onInputKeyUpHandler}
           onClick={() => {
             setIsFolded(false);
           }}
           onChange={(e) => onInputChange(e.currentTarget.value)}
-          onKeyDown={onEnterDownHandled}
-          value={selectedOption}
+          value={selectedOption !== 'Type to search' ? selectedOption : value}
           type="text"
-          placeholder={'Type to search'}
+          placeholder={selectedOption}
           onBlur={onInputBlurHandler}
         />
-        <RxCross1
+        <AiFillDelete
           size={15}
           className={s.cross}
-          onClick={() => onInputChange('')}
+          onClick={onDeleteClickHandler}
         />
         {isFolded ? (
           <BiChevronDown
@@ -104,9 +97,6 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
               key={i.id}
               onMouseOver={() => {
                 onMouseOverHandler(i.name);
-              }}
-              onKeyDown={(e) => {
-                onLiEnterDownHandled(e, i.name);
               }}
               className={`${
                 i.name.toLowerCase().includes(value.toLowerCase())
