@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import s from './combo-box.module.css';
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { AiFillDelete, AiOutlineSearch } from 'react-icons/ai';
 import { ListItemType } from '../../app';
 
@@ -19,14 +18,6 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
     setIsFolded(true);
     setSelectedOption(name);
     onInputChange(name);
-  };
-
-  const onChevronDownClickHandler = () => {
-    setIsFolded(false);
-  };
-
-  const onChevronUpClickHandler = () => {
-    setIsFolded(true);
   };
 
   const onInputKeyUpHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -70,27 +61,6 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
           className={s.bin}
           onClick={onDeleteClickHandler}
         />
-        {isFolded ? (
-          <BiChevronDown
-            onBlur={() => {
-              setIsFolded(true);
-            }}
-            onClick={onChevronDownClickHandler}
-            size={20}
-            className={s.biChevronSvg}
-          />
-        ) : (
-          <div>
-            <BiChevronUp
-              onBlur={() => {
-                setIsFolded(true);
-              }}
-              onClick={onChevronUpClickHandler}
-              size={20}
-              className={s.biChevronSvg}
-            />
-          </div>
-        )}
       </div>
       <div>
         <ul
