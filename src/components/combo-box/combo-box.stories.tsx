@@ -52,8 +52,6 @@ const itemList: Array<ListItemType> = [
 export function ComboBoxComponent() {
   const [inputValue, setInputValue] = useState<string>('');
 
-  console.log(inputValue + ' inputvalue');
-
   const onChangeHandler = (currentValue: string) => {
     setInputValue(currentValue);
   };

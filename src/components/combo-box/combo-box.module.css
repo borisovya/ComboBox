@@ -1,5 +1,5 @@
 .comboBoxContainer {
-  width: 220px;
+  width: 250px;
   height: 30px;
   cursor: pointer;
 }
@@ -10,30 +10,37 @@
 
 .searchSvg {
   position: absolute;
-  top: 9px;
+  top: 15px;
   left: 5px;
   pointer-events: none;
 }
 
 .biChevronSvg {
   position: absolute;
-  top: 9px;
+  top: 17px;
   right: 0;
 }
 
-.cross {
+.bin {
   position: absolute;
-  top: 10px;
+  top: 19px;
   right: 20px;
 }
 
 .selectLine input {
+  font-family: Tahoma, sans-serif;
+  font-size: 14px;
   width: 90%;
-  padding-left: 30px;
-  height: 30px;
+  height: 50px;
   right: 20px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  padding: 0 0 0 30px;
+}
+
+.selectLine input:focus{
   border: 2px solid #1EA7FD;
-  border-radius: 3px;
 }
 
 .dropDownListStyle {
@@ -43,14 +50,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 2px solid #1EA7FD;
-  border-radius: 3px;
+  border: none;
   text-decoration: none;
   list-style-type: none;
-  padding-left: 5px;
-  padding-right: 5px;
-  max-height: 81px;
+  padding-left: 10px;
+  max-height: 130px;
   overflow-y: auto;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .dropDownListStyle {
@@ -61,12 +67,10 @@
   display: none;
 }
 
-
 .dropDownListStyle :hover {
   width: 100%;
   cursor: pointer;
   background-color: #1EA7FD;
-  opacity: 0.9;
 }
 
 .displayItems {
@@ -79,4 +83,13 @@
   font-size: 14px;
   width: 100%;
   display: none;
+}
+
+.comboBoxContainer .dropDownListStyle li {
+  text-decoration: none;
+  font-size: 14px;
+  height: 30px;
+  padding-left: 5px;
+  padding-top: 10px;
+  font-family: Tahoma, sans-serif;
 }

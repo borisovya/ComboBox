@@ -27,8 +27,6 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
 
   const onChevronUpClickHandler = () => {
     setIsFolded(true);
-    setSelectedOption('');
-    onInputChange('');
   };
 
   const onInputKeyUpHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -69,21 +67,29 @@ export function ComboBox({ itemList, onInputChange, value }: propsType) {
         />
         <AiFillDelete
           size={15}
-          className={s.cross}
+          className={s.bin}
           onClick={onDeleteClickHandler}
         />
         {isFolded ? (
           <BiChevronDown
+            onBlur={() => {
+              setIsFolded(true);
+            }}
             onClick={onChevronDownClickHandler}
             size={20}
             className={s.biChevronSvg}
           />
         ) : (
-          <BiChevronUp
-            onClick={onChevronUpClickHandler}
-            size={20}
-            className={s.biChevronSvg}
-          />
+          <div>
+            <BiChevronUp
+              onBlur={() => {
+                setIsFolded(true);
+              }}
+              onClick={onChevronUpClickHandler}
+              size={20}
+              className={s.biChevronSvg}
+            />
+          </div>
         )}
       </div>
       <div>
